@@ -1,7 +1,6 @@
-[gd_scene load_steps=9 format=3 uid="uid://d13r8kj4baab6"]
+[gd_scene load_steps=7 format=3 uid="uid://d13r8kj4baab6"]
 
 [ext_resource type="Shader" path="res://Shaders/sphereFront.gdshader" id="1_6jdj6"]
-[ext_resource type="Shader" path="res://Shaders/sphereBack.gdshader" id="2_h0rtq"]
 [ext_resource type="Script" path="res://Scripts/camera.gd" id="3_3uo77"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bdlu2"]
@@ -21,10 +20,15 @@ glow_enabled = true
 resource_local_to_scene = true
 render_priority = 0
 shader = ExtResource("1_6jdj6")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_fbpn2"]
-render_priority = 0
-shader = ExtResource("2_h0rtq")
+shader_parameter/lineCountLong = 10.0
+shader_parameter/lineCountLat = 10.0
+shader_parameter/widthLong = 0.096
+shader_parameter/widthLat = 0.06
+shader_parameter/corrigation = 0.145
+shader_parameter/alphaLimit = 0.7
+shader_parameter/backgroundAlpha = 0.1
+shader_parameter/lineColor = Color(0.572549, 1, 1, 1)
+shader_parameter/backgroundColor = Color(1, 1, 1, 1)
 
 [node name="Node3D" type="Node3D"]
 
@@ -38,15 +42,9 @@ environment = SubResource("Environment_vbbhu")
 [node name="Bloch-sphere" type="Node3D" parent="."]
 
 [node name="Front" type="CSGSphere3D" parent="Bloch-sphere"]
-radial_segments = 30
-rings = 30
+radial_segments = 60
+rings = 60
 material = SubResource("ShaderMaterial_6e1v1")
-
-[node name="Back" type="CSGSphere3D" parent="Bloch-sphere"]
-visible = false
-radial_segments = 30
-rings = 30
-material = SubResource("ShaderMaterial_fbpn2")
 
 [node name="CameraPivot" type="Node3D" parent="."]
 
