@@ -1,7 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://d13r8kj4baab6"]
+[gd_scene load_steps=9 format=3 uid="uid://d13r8kj4baab6"]
 
 [ext_resource type="Shader" path="res://Shaders/sphereFront.gdshader" id="1_6jdj6"]
+[ext_resource type="PackedScene" uid="uid://paeri284mvdq" path="res://Scenes/arrow.tscn" id="2_s0u2u"]
 [ext_resource type="Script" path="res://Scripts/camera.gd" id="3_3uo77"]
+[ext_resource type="Script" path="res://Scripts/ToWorldSpace.gd" id="3_og2xj"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bdlu2"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -46,10 +48,35 @@ radial_segments = 60
 rings = 60
 material = SubResource("ShaderMaterial_6e1v1")
 
+[node name="Cat0" type="Marker3D" parent="Bloch-sphere"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
+
+[node name="Cat1" type="Marker3D" parent="Bloch-sphere"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
+
+[node name="arrow" parent="Bloch-sphere" instance=ExtResource("2_s0u2u")]
+
 [node name="CameraPivot" type="Node3D" parent="."]
 
-[node name="Camera3D" type="Camera3D" parent="CameraPivot" node_paths=PackedStringArray("target", "pivot")]
+[node name="Camera" type="Camera3D" parent="CameraPivot" node_paths=PackedStringArray("target", "pivot")]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.4263)
 script = ExtResource("3_3uo77")
 target = NodePath("../../Bloch-sphere")
 pivot = NodePath("..")
+
+[node name="Cat0" type="Label" parent="." node_paths=PackedStringArray("follow")]
+offset_right = 30.0
+offset_bottom = 25.0
+pivot_offset = Vector2(50, 20)
+text = "|0>"
+script = ExtResource("3_og2xj")
+follow = NodePath("../Bloch-sphere/Cat0")
+
+[node name="Cat1" type="Label" parent="." node_paths=PackedStringArray("follow")]
+offset_right = 30.0
+offset_bottom = 25.0
+pivot_offset = Vector2(50, 20)
+text = "|1>"
+script = ExtResource("3_og2xj")
+follow = NodePath("../Bloch-sphere/Cat1")

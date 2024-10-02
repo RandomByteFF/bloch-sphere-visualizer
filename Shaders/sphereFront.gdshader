@@ -16,7 +16,7 @@ void fragment() {
 	//TODO: AA
 	float latJump = 1.0f - widthLat;
 	float latAlpha = step(latJump, mod(UV.y * lineCountLat - widthLat/2.0f, 1.0f));
-	
+
 	//TODO: hammer longitude
 	float longJump = sqrt(1.0f - corrigation * pow((abs(UV.y - 0.5f) * 2.0f), 2.0f)) * widthLong;
 	float longAlpha = step(longJump, mod(UV.x - 0.5f * widthLong, 1.0f / lineCountLong));
@@ -24,6 +24,6 @@ void fragment() {
 	ALPHA = (backgroundAlpha + step(0.5f, longAlpha + latAlpha)) * alphaLimit;
 	vec3 background = (backgroundColor * (alphaLimit - ALPHA));
 	vec3 line = step(alphaLimit / 2.0f, ALPHA - backgroundAlpha) * lineColor;
-	
+
 	ALBEDO = background + line;
 }
