@@ -55,7 +55,20 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
 [node name="Cat1" type="Marker3D" parent="Bloch-sphere"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
 
+[node name="ImGui" type="Node" parent="Bloch-sphere" node_paths=PackedStringArray("arrow")]
+script = ExtResource("5_qyg0u")
+arrow = NodePath("../arrow")
+color = [1.0, 0.0, 0.4, 0.7]
+
 [node name="arrow" parent="Bloch-sphere" instance=ExtResource("2_s0u2u")]
+
+[node name="ImGui2" type="Node" parent="Bloch-sphere" node_paths=PackedStringArray("arrow")]
+script = ExtResource("5_qyg0u")
+arrow = NodePath("../arrow2")
+color = [1.0, 0.0, 0.4, 0.7]
+bit_index = 1
+
+[node name="arrow2" parent="Bloch-sphere" instance=ExtResource("2_s0u2u")]
 
 [node name="CameraPivot" type="Node3D" parent="."]
 
@@ -81,6 +94,3 @@ pivot_offset = Vector2(50, 20)
 text = "|1>"
 script = ExtResource("3_og2xj")
 follow = NodePath("../Bloch-sphere/Cat1")
-
-[node name="ImGui" type="Node" parent="."]
-script = ExtResource("5_qyg0u")
