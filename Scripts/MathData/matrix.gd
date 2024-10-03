@@ -64,6 +64,13 @@ func multiply_mat(m: MatrixComplex2D) -> MatrixComplex2D:
 		c.multiply(m.a).add(d.multiply(m.c)),
 		c.multiply(m.b).add(d.multiply(m.d)),
 	)
+ 
+## Multiplies by `s` scalar
+func multiply_scalar(s : float) -> MatrixComplex2D:
+	return MatrixComplex2D.new(
+		a.multiply_real(s), b.multiply_real(s),
+		c.multiply_real(s), d.multiply_real(s),
+	)
 
 func transpose() -> MatrixComplex2D:
 	return MatrixComplex2D.new(c, a, d, b)

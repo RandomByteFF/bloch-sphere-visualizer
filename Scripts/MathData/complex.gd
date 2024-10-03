@@ -40,7 +40,13 @@ func subtract(b: Complex) -> Complex:
 func multiply(b: Complex) -> Complex:
 	return Complex.new(
 		(re * b.re - im * b.im),
-		(re * b.im + im * b.re)
+		(re * b.im + im * b.re),
+	)
+
+func multiply_real(s : float) -> Complex:
+	return Complex.new(
+		re * s,
+		im * s,
 	)
 
 func divide(b: Complex) -> Complex:
@@ -49,7 +55,7 @@ func divide(b: Complex) -> Complex:
 	
 	return Complex.new(
 		(re * b.re + im * b.im) / d,
-		(im * b.re - re * b.im) / d
+		(im * b.re - re * b.im) / d,
 	)
 	
 func power(n: float) -> Complex:
@@ -57,7 +63,7 @@ func power(n: float) -> Complex:
 
 	return Complex.new_polar(
 		pow(p["r"], n),
-		p["phi"] * n
+		p["phi"] * n,
 
 	)
 
@@ -68,5 +74,5 @@ func root(n: int) -> Complex:
 func get_polar():
 	return {
 		"r": sqrt(re * re + im * im),
-		"phi": atan2(im, re)
+		"phi": atan2(im, re),
 	}

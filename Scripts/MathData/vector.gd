@@ -42,6 +42,10 @@ func multiply_mat(m: MatrixComplex2D) -> VectorComplex2D:
 		x.multiply(m.b).add(y.multiply(m.d)),
 	)
 
+## Multiplies by `s` scalar
+func multiply_scalar(s : float) -> VectorComplex2D:
+	return VectorComplex2D.new(x.multiply_real(s), y.multiply_real(s))
+
 ## Replaces the [] operator overload
 func get_value(i: int) -> Complex:
 	assert(i < 2 && i >= 0, "Error: Invalid index for VectorComplex2D")
