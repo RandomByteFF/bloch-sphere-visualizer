@@ -12,7 +12,6 @@ shader_parameter/color = Color(1, 0, 0.509804, 1)
 shader_parameter/alpha = 0.75
 
 [node name="arrow" node_paths=PackedStringArray("model") instance=ExtResource("1_vwv5n")]
-transform = Transform3D(0.238, 0, 0, 0, 0.238, 0, 0, 0, 0.238, 0, 0, 0)
 script = ExtResource("3_yw2gu")
 model = NodePath("Cylinder")
 
