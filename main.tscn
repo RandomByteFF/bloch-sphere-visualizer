@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://d13r8kj4baab6"]
+[gd_scene load_steps=10 format=3 uid="uid://d13r8kj4baab6"]
 
 [ext_resource type="Shader" path="res://Shaders/sphereFront.gdshader" id="1_6jdj6"]
 [ext_resource type="PackedScene" uid="uid://paeri284mvdq" path="res://Scenes/arrow.tscn" id="2_s0u2u"]
 [ext_resource type="Script" path="res://Scripts/camera.gd" id="3_3uo77"]
 [ext_resource type="Script" path="res://Scripts/ToWorldSpace.gd" id="3_og2xj"]
+[ext_resource type="Script" path="res://Scripts/imgui.gd" id="5_qyg0u"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bdlu2"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -80,3 +81,6 @@ pivot_offset = Vector2(50, 20)
 text = "|1>"
 script = ExtResource("3_og2xj")
 follow = NodePath("../Bloch-sphere/Cat1")
+
+[node name="ImGui" type="Node" parent="."]
+script = ExtResource("5_qyg0u")
