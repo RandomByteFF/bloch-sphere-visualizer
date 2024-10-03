@@ -5,22 +5,22 @@ class_name Complex extends Object
 # Properties
 #
 
-var re = 0.0
-var im = 0.0
+var re: float
+var im: float
 
 #
 # Constructors
 #
 
-func _init(real : float = 0.0, imaginary : float = 0.0) -> void:
+func _init(real: float = 0.0, imaginary: float = 0.0) -> void:
 	re = real
 	im = imaginary
 
 ## Creates a complex number from exponential / trigonometric format phi is in rad
 ##
 ## `r * e^{i * phi}` or `r * (cos(phi) + i * sin(phi))`
-static func new_polar(r : float = 0.0, phi : float = 0.0) -> Complex:
-	var a = r / sqrt(1 + pow(tan(phi),2))
+static func new_polar(r: float = 0.0, phi: float = 0.0) -> Complex:
+	var a = r / sqrt(1 + pow(tan(phi), 2))
 	var b = a * tan(phi)
 	return Complex.new(a, b)
 
@@ -31,19 +31,19 @@ static func new_polar(r : float = 0.0, phi : float = 0.0) -> Complex:
 func conjugate() -> Complex:
 	return Complex.new(re, -im)
 	
-func add(b : Complex) -> Complex:
+func add(b: Complex) -> Complex:
 	return Complex.new(re + b.re, im + b.im)
 	
-func subtract(b : Complex) -> Complex:
+func subtract(b: Complex) -> Complex:
 	return Complex.new(re - b.re, im - b.im)
 
-func multiply(b : Complex) -> Complex:
+func multiply(b: Complex) -> Complex:
 	return Complex.new(
 		(re * b.re - im * b.im),
-		(re * b.im + im * b.re)	
+		(re * b.im + im * b.re)
 	)
 
-func divide(b : Complex) -> Complex:
+func divide(b: Complex) -> Complex:
 	# denominator
 	var d = b.re * b.re + b.im * b.im
 	
@@ -52,7 +52,7 @@ func divide(b : Complex) -> Complex:
 		(im * b.re - re * b.im) / d
 	)
 	
-func power(n : float) -> Complex:
+func power(n: float) -> Complex:
 	var p = get_polar()
 
 	return Complex.new_polar(
@@ -61,12 +61,12 @@ func power(n : float) -> Complex:
 
 	)
 
-func root(n : int) -> Complex:
+func root(n: int) -> Complex:
 	return power(1.0 / n)
 
 ## Returns `r` and `phi` for the exponential and trigometrical format
 func get_polar():
 	return {
 		"r": sqrt(re * re + im * im),
-		"phi":  atan2(im, re)
+		"phi": atan2(im, re)
 	}
