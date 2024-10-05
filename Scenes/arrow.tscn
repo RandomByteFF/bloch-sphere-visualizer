@@ -1,16 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://paeri284mvdq"]
+[gd_scene load_steps=5 format=3 uid="uid://paeri284mvdq"]
 
 [ext_resource type="PackedScene" uid="uid://cdmx235fk2og7" path="res://Models/arrow.blend" id="1_vwv5n"]
 [ext_resource type="Shader" path="res://Shaders/arrow.gdshader" id="2_cfa4i"]
+[ext_resource type="Script" path="res://Scripts/arrow.gd" id="3_yw2gu"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_m3n8t"]
-render_priority = 0
+resource_local_to_scene = true
+render_priority = 5
 shader = ExtResource("2_cfa4i")
 shader_parameter/color = Color(1, 0, 0.509804, 1)
 shader_parameter/alpha = 0.75
 
-[node name="arrow" instance=ExtResource("1_vwv5n")]
-transform = Transform3D(0.117, 0, 0, 0, 0.117, 0, 0, 0, 0.117, 0, 0, 0)
+[node name="arrow" node_paths=PackedStringArray("model") instance=ExtResource("1_vwv5n")]
+script = ExtResource("3_yw2gu")
+model = NodePath("Cylinder")
 
 [node name="Cylinder" parent="." index="0"]
 editor_description = "I need to inherit from arrow.blend so i can override the material and apply a gdshader."
