@@ -1,23 +1,10 @@
-[gd_scene load_steps=10 format=3 uid="uid://d13r8kj4baab6"]
+[gd_scene load_steps=7 format=3 uid="uid://d13r8kj4baab6"]
 
 [ext_resource type="Shader" path="res://Shaders/sphereFront.gdshader" id="1_6jdj6"]
 [ext_resource type="PackedScene" uid="uid://paeri284mvdq" path="res://Scenes/arrow.tscn" id="2_s0u2u"]
 [ext_resource type="Script" path="res://Scripts/camera.gd" id="3_3uo77"]
 [ext_resource type="Script" path="res://Scripts/ToWorldSpace.gd" id="3_og2xj"]
-[ext_resource type="Script" path="res://Scripts/qubit.gd" id="5_p2181"]
-
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_bdlu2"]
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-
-[sub_resource type="Sky" id="Sky_bgar7"]
-sky_material = SubResource("ProceduralSkyMaterial_bdlu2")
-
-[sub_resource type="Environment" id="Environment_vbbhu"]
-background_mode = 2
-sky = SubResource("Sky_bgar7")
-tonemap_mode = 2
-glow_enabled = true
+[ext_resource type="Script" path="res://Scripts/imgui.gd" id="5_qyg0u"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6e1v1"]
 resource_local_to_scene = true
@@ -25,22 +12,15 @@ render_priority = 0
 shader = ExtResource("1_6jdj6")
 shader_parameter/lineCountLong = 10.0
 shader_parameter/lineCountLat = 10.0
-shader_parameter/widthLong = 0.096
-shader_parameter/widthLat = 0.06
-shader_parameter/corrigation = 0.145
+shader_parameter/widthLong = 0.098
+shader_parameter/widthLat = 0.035
+shader_parameter/corrigation = 0.065
 shader_parameter/alphaLimit = 0.7
 shader_parameter/backgroundAlpha = 0.1
 shader_parameter/lineColor = Color(0.572549, 1, 1, 1)
 shader_parameter/backgroundColor = Color(1, 1, 1, 1)
 
 [node name="Node3D" type="Node3D"]
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.866023, -0.433016, 0.250001, 0, 0.499998, 0.866027, -0.500003, 0.749999, -0.43301, 0, 0, 0)
-shadow_enabled = true
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_vbbhu")
 
 [node name="Bloch-sphere" type="Node3D" parent="."]
 
@@ -54,8 +34,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
 
 [node name="Cat1" type="Marker3D" parent="Bloch-sphere"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
-
-[node name="arrow" parent="Bloch-sphere" instance=ExtResource("2_s0u2u")]
 
 [node name="CameraPivot" type="Node3D" parent="."]
 
@@ -82,5 +60,7 @@ text = "|1>"
 script = ExtResource("3_og2xj")
 follow = NodePath("../Bloch-sphere/Cat1")
 
-[node name="Qubit" type="Node3D" parent="."]
-script = ExtResource("5_p2181")
+[node name="Imgui" type="Node" parent="." node_paths=PackedStringArray("bloch_sphere")]
+script = ExtResource("5_qyg0u")
+bloch_sphere = NodePath("../Bloch-sphere")
+arrow_scene = ExtResource("2_s0u2u")
