@@ -70,9 +70,13 @@ func power(n: float) -> Complex:
 func root(n: int) -> Complex:
 	return power(1.0 / n)
 
+## Returns |z|^2 for a z Complex number (`|z|^2 = zz^* = x^2 + y^2`)
+func abs_squared() -> float:
+	return re * re + im * im
+
 ## Returns `r` and `phi` for the exponential and trigometrical format
 func get_polar():
 	return {
-		"r": sqrt(re * re + im * im),
+		"r": sqrt(abs_squared()), # sqrt(x^2 + y^2)
 		"phi": atan2(im, re),
 	}
