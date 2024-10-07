@@ -6,6 +6,7 @@ class_name Gate extends MatrixComplex2D
 
 var name: String
 var abbreviation: String
+# todo assign colors if needed
 static var p_id: int = 0
 
 #
@@ -86,5 +87,5 @@ static func P(phi: float = PI) -> Gate:
 #
 # operations
 #
-func getAbbreviation() -> String:
-	return name[0].to_upper()
+func gui():
+	ImGui.ButtonEx(abbreviation, Vector2(40, 40))

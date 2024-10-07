@@ -47,9 +47,3 @@ func multiply_scalar(s: float) -> VectorComplex2D:
 func get_value(i: int) -> Complex:
 	assert(i < 2 && i >= 0, "Error: Invalid index for VectorComplex2D")
 	return x if i == 0 else y
-
-func get_x() -> Complex:
-	return x
-
-func get_y() -> Complex:
-	return y
