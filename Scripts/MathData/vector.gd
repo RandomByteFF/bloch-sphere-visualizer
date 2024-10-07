@@ -12,15 +12,12 @@ var y: Complex
 # Constructors
 #
 
-func _init(x_value: Complex = Complex.new(), y_value: Complex = Complex.new()) -> void:
-	x = x_value
-	y = y_value
+func _init(X: Complex = Complex.new(), Y: Complex = Complex.new()) -> void:
+	x = X
+	y = Y
 
-static func new_real(x_value: float = 0, y_value: float = 1) -> VectorComplex2D:
-	return VectorComplex2D.new(
-		Complex.new(x_value),
-		Complex.new(y_value),
-	)
+static func new_real(X: float = 0, Y: float = 1) -> VectorComplex2D:
+	return VectorComplex2D.new(Complex.new(X), Complex.new(Y))
 
 #
 # Operations
@@ -38,15 +35,21 @@ func multiply_vec(v: VectorComplex2D) -> Complex:
 ## Multiplies by `m` matrix from the right side (V * m as if V was row wise)
 func multiply_mat(m: MatrixComplex2D) -> VectorComplex2D:
 	return VectorComplex2D.new(
-		x.multiply(m.a).add(y.multiply(m.c)),
-		x.multiply(m.b).add(y.multiply(m.d)),
+		x.multiply(m._a).add(y.multiply(m._c)),
+		x.multiply(m._b).add(y.multiply(m._d)),
 	)
 
 ## Multiplies by `s` scalar
-func multiply_scalar(s : float) -> VectorComplex2D:
+func multiply_scalar(s: float) -> VectorComplex2D:
 	return VectorComplex2D.new(x.multiply_real(s), y.multiply_real(s))
 
 ## Replaces the [] operator overload
 func get_value(i: int) -> Complex:
 	assert(i < 2 && i >= 0, "Error: Invalid index for VectorComplex2D")
 	return x if i == 0 else y
+
+func get_x() -> Complex:
+	return x
+
+func get_y() -> Complex:
+	return y

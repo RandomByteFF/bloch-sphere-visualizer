@@ -1,4 +1,4 @@
-class_name MatrixComplex2D extends Node
+class_name MatrixComplex2D extends Object
 
 #
 # Properties
@@ -15,28 +15,13 @@ var d: Complex
 #
 
 func _init(
-	a_value: Complex = Complex.new(),
-	b_value: Complex = Complex.new(),
-	c_value: Complex = Complex.new(),
-	d_value: Complex = Complex.new(),
+	A: Complex = Complex.new(), B: Complex = Complex.new(),
+	C: Complex = Complex.new(), D: Complex = Complex.new(),
 ) -> void:
-	a = a_value
-	b = b_value
-	c = c_value
-	d = d_value
-
-static func new_real(
-	a_value: float = 0,
-	b_value: float = 0,
-	c_value: float = 0,
-	d_value: float = 0,
-) -> MatrixComplex2D:
-	return MatrixComplex2D.new(
-		Complex.new(a_value),
-		Complex.new(b_value),
-		Complex.new(c_value),
-		Complex.new(d_value),
-	)
+	a = A
+	b = B
+	c = C
+	d = D
 	
 #
 # Operations
@@ -66,7 +51,7 @@ func multiply_mat(m: MatrixComplex2D) -> MatrixComplex2D:
 	)
  
 ## Multiplies by `s` scalar
-func multiply_scalar(s : float) -> MatrixComplex2D:
+func multiply_scalar(s: float) -> MatrixComplex2D:
 	return MatrixComplex2D.new(
 		a.multiply_real(s), b.multiply_real(s),
 		c.multiply_real(s), d.multiply_real(s),
