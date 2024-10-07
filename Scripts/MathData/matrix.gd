@@ -22,6 +22,19 @@ func _init(
 	b = B
 	c = C
 	d = D
+
+static func new_real(
+	A: float = 0,
+	B: float = 0,
+	C: float = 0,
+	D: float = 0,
+) -> MatrixComplex2D:
+	return MatrixComplex2D.new(
+		Complex.new(A),
+		Complex.new(B),
+		Complex.new(C),
+		Complex.new(D),
+	)
 	
 #
 # Operations
