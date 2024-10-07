@@ -1,16 +1,10 @@
-class_name Qubit extends Object
-
-#
-# Properties
-#
-
-var value: VectorComplex2D
+class_name Qubit extends VectorComplex2D
 
 #
 # Constructors
 #
 func _init(a: Complex, b: Complex):
-    value = VectorComplex2D.new(a, b)
+    super(a, b)
 
 static func new_vec(val: VectorComplex2D) -> Qubit:
     return Qubit.new(val.x, val.y)
@@ -27,13 +21,13 @@ static var ket_minus = Qubit.new_vec(VectorComplex2D.new_real(1, -1).multiply_sc
 
 func is_valid() -> bool:
     # TODO: this might not be correct because of float inacuraccy therefore needs to be checked later
-    return value.a.abs_squared() + value.b.abs_squared() == 1
+    return x.abs_squared() + y.abs_squared() == 1
 
 ## Returns the 3d representation of `value`
 func to_bloch_spehere() -> Vector3:
     # |psi> = r_x * e^(i * phi_x) |0> + r_y * e^(i * phi_y) |1>
-    var x_polar = value.x.get_polar()
-    var y_polar = value.y.get_polar()
+    var x_polar = x.get_polar()
+    var y_polar = y.get_polar()
 
     # = r_x |0> + r_y * e^(i * (phi_y - phi_x))
     var beta = y_polar["phi"] - x_polar["phi"]
