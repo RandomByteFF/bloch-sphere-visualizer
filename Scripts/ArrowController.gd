@@ -14,6 +14,8 @@ var _re_text2 = ["0"]
 var _im_text2 = ["0"]
 var gates = []
 
+var default_gates = [ Gate.H, Gate.X, Gate.Y, Gate.Z, Gate.P() ]
+
 @warning_ignore("shadowed_variable")
 func ready(arrow):
 	self.arrow = arrow
@@ -65,30 +67,26 @@ func gui():
 	
 	if (ImGui.ButtonEx("+", Vector2(40, 40))):
 		ImGui.OpenPopup("gate_chooser")
-	var add_gate := ""
+
+	var added_gate := ""
+	
+
 	if ImGui.BeginPopup("gate_chooser"):
-		var buttons = ["H", "X", "Y", "Z", "P"]
-		for i in buttons:
-			if ImGui.Button(i):
+		
+		for g in default_gates:
+			if ImGui.Button(g.abbreviation):
 				ImGui.CloseCurrentPopup()
-				add_gate = i
+				added_gate = g.abbreviation
 			ImGui.SameLine()
 		ImGui.EndPopup()
 
-	if add_gate != "":
-		match add_gate:
-			"H":
-				gates.push_back(Hadamard.new())
-			"X":
-				gates.push_back(XGate.new())
-			"Y":
-				gates.push_back(YGate.new())
-			"Z":
-				gates.push_back(ZGate.new())
-			"P":
-				gates.push_back(Phase.new())
-			_:
-				push_warning("No gate with label recognized: " + add_gate)
+	if added_gate != "":
+		var found = default_gates.filter(func(g): return g.abbreviation == added_gate)
+
+		if not found.is_empty():
+			gates.push_back(found[0])
+		else:
+			push_warning("No gate with label recognized: " + added_gate)
 
 	ImGui.EndChild()
 	ImGui.EndChild()
