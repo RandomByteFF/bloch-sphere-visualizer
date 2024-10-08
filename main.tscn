@@ -1,10 +1,10 @@
 [gd_scene load_steps=7 format=3 uid="uid://d13r8kj4baab6"]
 
 [ext_resource type="Shader" path="res://Shaders/sphereFront.gdshader" id="1_6jdj6"]
-[ext_resource type="PackedScene" uid="uid://paeri284mvdq" path="res://Scenes/arrow.tscn" id="2_s0u2u"]
 [ext_resource type="Script" path="res://Scripts/camera.gd" id="3_3uo77"]
 [ext_resource type="Script" path="res://Scripts/ToWorldSpace.gd" id="3_og2xj"]
-[ext_resource type="Script" path="res://Scripts/imgui.gd" id="5_qyg0u"]
+[ext_resource type="Script" path="res://Scripts/Gui/Gui.gd" id="4_afmv3"]
+[ext_resource type="Script" path="res://Scripts/ControlStore.gd" id="5_k4i0p"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6e1v1"]
 resource_local_to_scene = true
@@ -22,17 +22,18 @@ shader_parameter/backgroundColor = Color(1, 1, 1, 1)
 
 [node name="Node3D" type="Node3D"]
 
-[node name="Bloch-sphere" type="Node3D" parent="."]
+[node name="BlochSphere" type="Node3D" parent="."]
+unique_name_in_owner = true
 
-[node name="Front" type="CSGSphere3D" parent="Bloch-sphere"]
+[node name="Front" type="CSGSphere3D" parent="BlochSphere"]
 radial_segments = 60
 rings = 60
 material = SubResource("ShaderMaterial_6e1v1")
 
-[node name="Cat0" type="Marker3D" parent="Bloch-sphere"]
+[node name="Cat0" type="Marker3D" parent="BlochSphere"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
 
-[node name="Cat1" type="Marker3D" parent="Bloch-sphere"]
+[node name="Cat1" type="Marker3D" parent="BlochSphere"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
 
 [node name="CameraPivot" type="Node3D" parent="."]
@@ -41,7 +42,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.55, 0)
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.4263)
 script = ExtResource("3_3uo77")
-target = NodePath("../../Bloch-sphere")
+target = NodePath("../../BlochSphere")
 pivot = NodePath("..")
 
 [node name="Cat0" type="Label" parent="." node_paths=PackedStringArray("follow")]
@@ -50,7 +51,7 @@ offset_bottom = 25.0
 pivot_offset = Vector2(50, 20)
 text = "|0>"
 script = ExtResource("3_og2xj")
-follow = NodePath("../Bloch-sphere/Cat0")
+follow = NodePath("../BlochSphere/Cat0")
 
 [node name="Cat1" type="Label" parent="." node_paths=PackedStringArray("follow")]
 offset_right = 30.0
@@ -58,9 +59,11 @@ offset_bottom = 25.0
 pivot_offset = Vector2(50, 20)
 text = "|1>"
 script = ExtResource("3_og2xj")
-follow = NodePath("../Bloch-sphere/Cat1")
+follow = NodePath("../BlochSphere/Cat1")
 
-[node name="Imgui" type="Node" parent="." node_paths=PackedStringArray("bloch_sphere")]
-script = ExtResource("5_qyg0u")
-bloch_sphere = NodePath("../Bloch-sphere")
-arrow_scene = ExtResource("2_s0u2u")
+[node name="Gui" type="Node" parent="."]
+script = ExtResource("4_afmv3")
+
+[node name="ControlStore" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("5_k4i0p")

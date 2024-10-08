@@ -20,8 +20,7 @@ static var ket_minus = Qubit.new_vec(VectorComplex2D.new_real(1, -1).multiply_sc
 #
 
 func is_valid() -> bool:
-    # TODO: this might not be correct because of float inacuraccy therefore needs to be checked later
-    return x.abs_squared() + y.abs_squared() == 1
+    return is_equal_approx(x.abs_squared() + y.abs_squared(), 1)
 
 ## Returns the 3d representation of `value`
 func to_bloch_spehere() -> Vector3:
