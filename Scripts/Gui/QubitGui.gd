@@ -2,6 +2,7 @@ class_name QubitGui
 
 signal color_changed
 signal gate_added
+signal removed
 
 var _re_text1 = ["1"]
 var _im_text1 = ["0"]
@@ -11,10 +12,16 @@ var _im_text2 = ["0"]
 var bit_index := 0
 var color_picker_open = false
 var identifier := "a"
+var main_gui: Gui
 ## Default arrow color. The length has to be 4, else ImGui will crash the application
 ## without any error whatsoever. 
 var color = [0.0, 0.0, 0.0, 1.0]
 var gates: Array[GateGui] = []
+
+# Trust me bro
+@warning_ignore("shadowed_variable")
+func _init(main_gui: Gui) -> void:
+	self.main_gui = main_gui
 
 func gui():
 	ImGui.BeginChild("qubit_gui_" + str(bit_index), Vector2(0, 0), ImGui.ChildFlags_AlwaysAutoResize | ImGui.ChildFlags_AutoResizeX | ImGui.ChildFlags_AutoResizeY)
@@ -39,6 +46,12 @@ func gui():
 
 	#Complex number 2
 	ImGui.PushItemWidth(80)
+	
+	if ImGui.Button("Del"):
+		removed.emit()
+		main_gui.remove_qubit(self)
+	ImGui.SameLine()
+
 	# ImGui is a piece of shit, but oddly, it's really useful sometimes
 	# (I still love it tho)
 	ImGui.SetCursorPosX(56)

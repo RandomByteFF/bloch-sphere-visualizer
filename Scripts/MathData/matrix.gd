@@ -1,4 +1,4 @@
-class_name MatrixComplex2D extends Object
+class_name MatrixComplex2D
 
 #
 # Properties

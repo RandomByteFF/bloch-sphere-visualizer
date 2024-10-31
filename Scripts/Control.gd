@@ -11,6 +11,7 @@ func _init(data: QubitGui, sphere: Node3D):
 	sphere.add_child(arrow)
 	data.color_changed.connect(_arrow_set_color)
 	data.gate_added.connect(_on_gate_added)
+	data.removed.connect(_remove_qubit)
 
 func _arrow_set_color(color: Array):
 	arrow.set_color(color)
@@ -18,3 +19,8 @@ func _arrow_set_color(color: Array):
 func _on_gate_added(gate: Gate):
 	gates.push_back(gate)
 	print(gates)
+
+func _remove_qubit():
+	if arrow:
+		arrow.queue_free()
+

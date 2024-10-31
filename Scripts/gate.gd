@@ -1,4 +1,4 @@
-class_name Gate extends Object
+class_name Gate
 
 #
 # Properties
