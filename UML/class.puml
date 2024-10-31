@@ -1,0 +1,29 @@
+@startuml class
+
+class Gui {
+
+}
+
+class Control {
+
+}
+Gui o-- QubitGui
+
+class Arrow {
+
+}
+
+Control "1" o-- Arrow
+
+class Gate {
+
+}
+
+Control *-- Gate
+Control *-- Qubit
+
+ControlStore *-- Control
+Gui --> ControlStore
+Control --> QubitGui
+
+@enduml
