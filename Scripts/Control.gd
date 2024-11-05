@@ -12,15 +12,17 @@ func _init(data: QubitGui, sphere: Node3D):
 	data.color_changed.connect(_arrow_set_color)
 	data.gate_added.connect(_on_gate_added)
 	data.removed.connect(_remove_qubit)
+	data.gate_removed.connect(_on_gate_delete)
 
 func _arrow_set_color(color: Array):
 	arrow.set_color(color)
 
 func _on_gate_added(gate: Gate):
 	gates.push_back(gate)
-	print(gates)
+
+func _on_gate_delete(gate: Gate):
+	gates.erase(gate)
 
 func _remove_qubit():
 	if arrow:
 		arrow.queue_free()
-

@@ -2,6 +2,7 @@ class_name QubitGui
 
 signal color_changed
 signal gate_added
+signal gate_removed
 signal removed
 
 var _re_text1 = ["1"]
@@ -86,11 +87,22 @@ func gui():
 		ImGui.EndPopup()
 
 	if added_gate != "":
-		gates.push_back(GateGui.new(added_gate))
+		var newGate
+		match added_gate:
+			"P":
+				newGate = PhaseGateGui.new(added_gate)
+			_:
+				newGate = GateGui.new(added_gate)
+		gates.push_back(newGate)
 		gate_added.emit(gates[-1].gate)
+		newGate.delete_gate.connect(_on_gate_delete)
 
 	ImGui.EndChild()
 	ImGui.EndChild()
+
+func _on_gate_delete(gate: GateGui):
+	gate_removed.emit(gate.gate)
+	gates.erase(gate)
 
 func sync():
 	color_changed.emit(color)

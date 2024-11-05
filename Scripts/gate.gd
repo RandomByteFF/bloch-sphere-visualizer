@@ -88,6 +88,3 @@ func interpolate(qubit : Qubit, steps : int = 15) -> Curve3D:
 		result.add_point((step as Qubit).to_bloch_spehere())
 
 	return result
-
-func gui():
-	ImGui.ButtonEx(abbreviation, Vector2(40, 40))
