@@ -18,6 +18,11 @@ var main_gui: Gui
 ## without any error whatsoever. 
 var color = [0.0, 0.0, 0.0, 1.0]
 var gates: Array[GateGui] = []
+var _cursor_poses: Array[float] = []
+
+var _init_mouse_pos := Vector2()
+var _hold_on_prev_frame = false
+var _selected_gate: GateGui
 
 # Trust me bro
 @warning_ignore("shadowed_variable")
@@ -69,10 +74,54 @@ func gui():
 			color_changed.emit(color)
 	
 	ImGui.BeginChild("gates", Vector2(0, 70), ImGui.ChildFlags_Border, ImGui.WindowFlags_HorizontalScrollbar)
+	# TODO: Refactor, this is ugly because godot imgui doesn't support drag-drop payloads
+	var it = 0
+	var try_switch = false
+	var c_pos: float
+	var s_index = 0
+
 	for i in gates:
+		_cursor_poses[it] = ImGui.GetCursorPosX()
+		var d = Vector2()
+		if i == _selected_gate:
+			d = main_gui.get_viewport().get_mouse_position() - _init_mouse_pos
+			ImGui.SetCursorPosX(ImGui.GetCursorPosX() + d.x)
+			try_switch = true
+			c_pos = ImGui.GetCursorPosX()
+			s_index = it
+
 		i.gui()
 		ImGui.SameLine()
+		if i == _selected_gate:
+			ImGui.SetCursorPosX(ImGui.GetCursorPosX() - d.x)
+		
+		if ImGui.BeginDragDropSource(ImGui.DragDropFlags_SourceNoPreviewTooltip):
+			if !_hold_on_prev_frame:
+				_init_mouse_pos = main_gui.get_viewport().get_mouse_position()
+				_selected_gate = i
+			_hold_on_prev_frame = true
+			
+			ImGui.EndDragDropSource()
+		elif i == _selected_gate: 
+			_hold_on_prev_frame = false
+			_selected_gate = null
+
+		it += 1
 	
+	if try_switch:
+		if _cursor_poses.size() > s_index + 1:
+			if _cursor_poses[s_index + 1] < c_pos:
+				var t = gates[s_index]
+				gates[s_index] = gates[s_index + 1]
+				gates[s_index + 1] = t
+				_init_mouse_pos.x += _cursor_poses[s_index + 1] - _cursor_poses[s_index]
+		if s_index > 0:
+			if _cursor_poses[s_index - 1] > c_pos:
+				var t = gates[s_index]
+				gates[s_index] = gates[s_index - 1]
+				gates[s_index - 1] = t
+				_init_mouse_pos.x -= _cursor_poses[s_index] - _cursor_poses[s_index - 1]
+
 	if (ImGui.ButtonEx("+", Vector2(40, 40))):
 		ImGui.OpenPopup("gate_chooser")
 
@@ -96,6 +145,7 @@ func gui():
 		gates.push_back(newGate)
 		gate_added.emit(gates[-1].gate)
 		newGate.delete_gate.connect(_on_gate_delete)
+		_cursor_poses.push_back(0)
 
 	ImGui.EndChild()
 	ImGui.EndChild()
