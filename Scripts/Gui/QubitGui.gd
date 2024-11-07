@@ -4,6 +4,7 @@ signal color_changed
 signal gate_added
 signal gate_removed
 signal removed
+signal gates_reordered
 
 var _re_text1 = ["1"]
 var _im_text1 = ["0"]
@@ -18,7 +19,6 @@ var main_gui: Gui
 ## without any error whatsoever. 
 var color = [0.0, 0.0, 0.0, 1.0]
 var gates: Array[GateGui] = []
-var _cursor_poses: Array[float] = []
 
 var _init_mouse_pos := Vector2()
 var _hold_on_prev_frame = false
@@ -79,6 +79,9 @@ func gui():
 	var try_switch = false
 	var c_pos: float
 	var s_index = 0
+	var clickable = true
+	var _cursor_poses: Array[float] = []
+	_cursor_poses.resize(gates.size())
 
 	for i in gates:
 		_cursor_poses[it] = ImGui.GetCursorPosX()
@@ -89,8 +92,9 @@ func gui():
 			try_switch = true
 			c_pos = ImGui.GetCursorPosX()
 			s_index = it
+			clickable = false
 
-		i.gui()
+		i.gui(clickable)
 		ImGui.SameLine()
 		if i == _selected_gate:
 			ImGui.SetCursorPosX(ImGui.GetCursorPosX() - d.x)
@@ -115,12 +119,14 @@ func gui():
 				gates[s_index] = gates[s_index + 1]
 				gates[s_index + 1] = t
 				_init_mouse_pos.x += _cursor_poses[s_index + 1] - _cursor_poses[s_index]
+				gates_reordered.emit(_construct_new_gate_order())
 		if s_index > 0:
 			if _cursor_poses[s_index - 1] > c_pos:
 				var t = gates[s_index]
 				gates[s_index] = gates[s_index - 1]
 				gates[s_index - 1] = t
 				_init_mouse_pos.x -= _cursor_poses[s_index] - _cursor_poses[s_index - 1]
+				gates_reordered.emit(_construct_new_gate_order())
 
 	if (ImGui.ButtonEx("+", Vector2(40, 40))):
 		ImGui.OpenPopup("gate_chooser")
@@ -145,7 +151,6 @@ func gui():
 		gates.push_back(newGate)
 		gate_added.emit(gates[-1].gate)
 		newGate.delete_gate.connect(_on_gate_delete)
-		_cursor_poses.push_back(0)
 
 	ImGui.EndChild()
 	ImGui.EndChild()
@@ -156,3 +161,11 @@ func _on_gate_delete(gate: GateGui):
 
 func sync():
 	color_changed.emit(color)
+
+func _construct_new_gate_order() -> Array[Gate]:
+	var res: Array[Gate]
+	
+	for i in gates:
+		res.push_back(i.gate)
+
+	return res

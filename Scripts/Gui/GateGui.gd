@@ -30,8 +30,8 @@ func _init(identifier: String):
 	_id = _global_id
 	_global_id += 1
 
-func gui():
-	if ImGui.ButtonEx(identifier + "##" + str(_id), Vector2(40, 40)):
+func gui(clickable: bool = true):
+	if ImGui.ButtonEx(identifier + "##" + str(_id), Vector2(40, 40)) && clickable:
 		ImGui.OpenPopup("##gate_popup_" + str(_id))
 	if ImGui.BeginPopup("##gate_popup_" + str(_id)):
 		_custom_popup()
