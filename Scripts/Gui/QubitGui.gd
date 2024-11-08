@@ -30,7 +30,7 @@ func _init(main_gui: Gui) -> void:
 	self.main_gui = main_gui
 
 func gui():
-	ImGui.BeginChild("qubit_gui_" + str(bit_index), Vector2(0, 0), ImGui.ChildFlags_AlwaysAutoResize | ImGui.ChildFlags_AutoResizeX | ImGui.ChildFlags_AutoResizeY)
+	ImGui.BeginChild("qubit_gui_" + str(bit_index), Vector2(0, 0), ImGui.ChildFlags_AutoResizeY)
 	
 	# Identifier text
 	ImGui.AlignTextToFramePadding()
