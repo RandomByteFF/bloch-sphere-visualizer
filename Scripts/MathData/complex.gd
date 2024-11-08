@@ -1,4 +1,4 @@
-class_name Complex extends Object
+class_name Complex
 ## Class to handle complex numbers
 
 #

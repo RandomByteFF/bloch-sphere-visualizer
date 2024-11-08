@@ -1,4 +1,4 @@
-class_name VectorComplex2D extends Object
+class_name VectorComplex2D 
 ## Class to handle 2D vectors containing complex numbers
 
 #

@@ -1,4 +1,4 @@
-class_name ExpressionHandler extends Object
+class_name ExpressionHandler
 ## This class could evaluate expressions so that users can provide their own operations on the complex numbers
 ## 
 ## But this seems to be more complicated than you would think:
