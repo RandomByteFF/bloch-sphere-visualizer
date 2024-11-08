@@ -14,6 +14,7 @@ func _init(data: QubitGui, sphere: Node3D):
 	data.removed.connect(_remove_qubit)
 	data.gate_removed.connect(_on_gate_delete)
 	data.gates_reordered.connect(_on_gate_reorder)
+	data.qubit_changed.connect(_on_qubit_change)
 
 func _arrow_set_color(color: Array):
 	arrow.set_color(color)
@@ -30,3 +31,7 @@ func _remove_qubit():
 
 func _on_gate_reorder(new_order: Array[Gate]):
 	gates = new_order
+
+func _on_qubit_change(re1: String, im1: String, re2: String, im2: String):
+	#TODO: Hajrá Kristóf
+	pass
