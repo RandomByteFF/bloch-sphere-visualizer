@@ -20,8 +20,8 @@ func _init(real: float = 0.0, imaginary: float = 0.0) -> void:
 ##
 ## `r * e^{i * phi}` or `r * (cos(phi) + i * sin(phi))`
 static func new_polar(r: float = 0.0, phi: float = 0.0) -> Complex:
-	var a = r / sqrt(1 + pow(tan(phi), 2))
-	var b = a * tan(phi)
+	var a = r * cos(phi)
+	var b = r * sin(phi)
 	return Complex.new(a, b)
 
 #
