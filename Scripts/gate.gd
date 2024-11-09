@@ -30,6 +30,14 @@ func _init(
 # Well known quantum logic gates
 #
 
+static var U: Gate = Gate.new(
+	"Unitary", "U",
+	MatrixComplex2D.new_real(
+		1, 0,
+		0, 1
+	)
+)
+
 static var X: Gate = Gate.new(
 	"Pauli-X", "X",
 	MatrixComplex2D.new_real(
@@ -79,12 +87,20 @@ static func P(phi: float = PI) -> Gate:
 # operations
 #
 
-func interpolate(qubit : Qubit, steps : int = 15) -> Curve3D:
-	var result = Curve3D.new()
-	var last = value.multiply_vec(qubit.value)
+func interpolate(qubit : Qubit, steps : int = 15) -> Dictionary:
+	var curve = Curve3D.new()
 
-	for t in range(0.0, 1.0, 1.0 / steps):
-		var step = qubit.value.multiply_scalar(t).add(last.multiply_scalar(1-t))
-		result.add_point((step as Qubit).to_bloch_spehere())
+	# the result of matrix multiplication 
+	var last = self.value.multiply_vec(qubit)
 
-	return result
+	var t = 0
+	var dt = 1.0 / steps
+
+	for i in range(steps):
+		# step = first * t + last * (1 - t)
+		var step = qubit.multiply_scalar(t).add(last.multiply_scalar(1-t))
+
+		curve.add_point(Qubit.from_vec(step).to_bloch_spehere_pos())
+		t += dt
+
+	return { "curve": curve, "position": Qubit.from_vec(last) }
