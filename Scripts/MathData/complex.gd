@@ -80,3 +80,6 @@ func get_polar():
 		"r": sqrt(abs_squared()), # sqrt(x^2 + y^2)
 		"phi": atan2(im, re),
 	}
+
+func _to_string() -> String:
+	return "%f + %fi" % [re, im]
