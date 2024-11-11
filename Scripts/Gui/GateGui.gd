@@ -7,7 +7,7 @@ var identifier: String
 ## Required because of popups need to be distinct
 var _id: int
 
-static var ids = ["X", "Y", "Z", "H", "P"]
+static var ids = ["X", "Y", "Z", "H", "P", "I", "U"]
 static var _global_id = 0
 static func _gateMap(id):
 	match id:
@@ -21,6 +21,10 @@ static func _gateMap(id):
 			return Gate.H
 		"P":
 			return Gate.P()
+		"I":
+			return Gate.I
+		"U":
+			return Gate.new("Unitary", "U", MatrixComplex2D.new_real(1, 0, 0, 1))
 
 
 @warning_ignore("shadowed_variable")

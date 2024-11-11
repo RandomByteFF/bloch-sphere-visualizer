@@ -20,8 +20,8 @@ func _init(real: float = 0.0, imaginary: float = 0.0) -> void:
 ##
 ## `r * e^{i * phi}` or `r * (cos(phi) + i * sin(phi))`
 static func new_polar(r: float = 0.0, phi: float = 0.0) -> Complex:
-	var a = r / sqrt(1 + pow(tan(phi), 2))
-	var b = a * tan(phi)
+	var a = r * cos(phi)
+	var b = r * sin(phi)
 	return Complex.new(a, b)
 
 #
@@ -52,6 +52,10 @@ func multiply_real(s : float) -> Complex:
 func divide(b: Complex) -> Complex:
 	# denominator
 	var d = b.re * b.re + b.im * b.im
+
+	if d == 0:
+		push_error("Division by zero")
+		return Complex.new(0, 0)
 	
 	return Complex.new(
 		(re * b.re + im * b.im) / d,
@@ -80,3 +84,6 @@ func get_polar():
 		"r": sqrt(abs_squared()), # sqrt(x^2 + y^2)
 		"phi": atan2(im, re),
 	}
+
+func _to_string() -> String:
+	return "%.2f + %.2fi" % [re, im]

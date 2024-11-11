@@ -2,9 +2,10 @@ class_name QubitGui
 
 signal color_changed
 signal gate_added
+signal gates_reordered
+signal gate_changed
 signal gate_removed
 signal removed
-signal gates_reordered
 signal qubit_changed
 
 var _re_text1 = ["1"]
@@ -150,7 +151,9 @@ func gui():
 		var newGate
 		match added_gate:
 			"P":
-				newGate = PhaseGateGui.new(added_gate)
+				newGate = PhaseGateGui.new(added_gate, func(): gate_changed.emit())
+			"U":
+				newGate = CustomGateGui.new(added_gate, func(): gate_changed.emit())
 			_:
 				newGate = GateGui.new(added_gate)
 		gates.push_back(newGate)
