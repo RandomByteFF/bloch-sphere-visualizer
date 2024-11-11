@@ -152,6 +152,8 @@ func gui():
 		match added_gate:
 			"P":
 				newGate = PhaseGateGui.new(added_gate, func(): gate_changed.emit())
+			"U":
+				newGate = CustomGateGui.new(added_gate, func(): gate_changed.emit())
 			_:
 				newGate = GateGui.new(added_gate)
 		gates.push_back(newGate)

@@ -7,9 +7,7 @@ class_name Gate
 var name: String
 var abbreviation: String
 var value : MatrixComplex2D
-var is_unitary : bool
 var cache : Dictionary = {}
-static var p_id: int = 0
 static var sphere_radius: float = 0.5
 
 #
@@ -31,8 +29,8 @@ func _init(
 # Well known quantum logic gates
 #
 
-static var U: Gate = Gate.new(
-	"Unitary", "U",
+static var I: Gate = Gate.new(
+	"Identity", "I",
 	MatrixComplex2D.new_real(
 		1, 0,
 		0, 1
@@ -72,12 +70,10 @@ static var H: Gate = Gate.new(
 )
 
 static func P(phi: float = PI) -> Gate:
-	p_id += 1
 	var display_name = "Phase (%.02f)" % phi
-	var display_abbr = "P%d" % p_id
 
 	return Gate.new(
-		display_name, display_abbr,
+		display_name, "P",
 		MatrixComplex2D.new(
 			Complex.new(1), Complex.new(0),
 			Complex.new(0), Complex.new_polar(1, phi) # 1 * e^(i * phi)
@@ -154,13 +150,20 @@ func _calculate_circle_parameters(start : Vector3, axis : Vector3):
 
 
 func interpolate(qubit : Qubit, use_godot_coords : bool, steps : int = 15) -> Dictionary:
+	# the start position of the qubit
 	var start = qubit.to_bloch_spehere_pos(false)
-	
 	# the result of matrix multiplication 
 	var last = Qubit.from_vec(self.value.multiply_vec(qubit))
+	
+	# if the start and the end is the same, we don't need to calculate the curve
+	if start.is_equal_approx(last.to_bloch_spehere_pos(false)):
+		return { "curve_points": [], "position": last, "start": start }
 
+	# if the curve is cached, we can return it
 	if not cache.is_empty() and start.is_equal_approx(cache["start"]) and last.is_equal_approx(cache["position"]):
 		return cache
+
+	# starting the curve calculation
 
 	var curve_points : Array[Vector3] = []
 	

@@ -86,4 +86,4 @@ func get_polar():
 	}
 
 func _to_string() -> String:
-	return "%f + %fi" % [re, im]
+	return "%.2f + %.2fi" % [re, im]
