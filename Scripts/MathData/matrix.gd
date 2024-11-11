@@ -71,7 +71,17 @@ func multiply_scalar(s: float) -> MatrixComplex2D:
 	)
 
 func transpose() -> MatrixComplex2D:
-	return MatrixComplex2D.new(c, a, d, b)
+	return MatrixComplex2D.new(a, c, b, d)
+
+func adjugate() -> MatrixComplex2D:
+	return MatrixComplex2D.new(a.conjugate(), c.conjugate(), b.conjugate(), d.conjugate())
+
+func _is_unitary() -> bool:
+	var m = self.multiply_mat(self.adjugate())
+
+	# checking if its Identity
+	var no_imaginary = is_equal_approx(m.a.im, 0.0) and is_equal_approx(m.b.im, 0.0) and is_equal_approx(m.c.im, 0.0) and is_equal_approx(m.d.im, 0.0)
+	return is_equal_approx(m.a.re, 1.0) and is_equal_approx(m.b.re, 0.0) and is_equal_approx(m.c.re, 0.0) and is_equal_approx(m.d.re, 1.0) and no_imaginary
 
 ## Replaces the [] operator overload
 func get_value(x: int, y: int) -> Complex:

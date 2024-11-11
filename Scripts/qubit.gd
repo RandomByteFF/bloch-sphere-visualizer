@@ -22,7 +22,7 @@ func is_valid() -> bool:
 	return is_equal_approx(x.abs_squared() + y.abs_squared(), 1)
 
 ## Returns the 3d representation of `value`
-func to_bloch_spehere_pos() -> Vector3:
+func to_bloch_spehere_pos(use_godot_coords : bool) -> Vector3:
 	# |psi> = r_x * e^(i * phi_x) |0> + r_y * e^(i * phi_y) |1>
 	var x_polar = x.get_polar()
 	var y_polar = y.get_polar()
@@ -34,9 +34,15 @@ func to_bloch_spehere_pos() -> Vector3:
 	var alpha = acos(x_polar["r"]) * 2
 
 	# mapping it to bloch sphere
-	#! for godot the y and z axis are swapped (and negated y)
+	if use_godot_coords:
+		return Vector3(
+			sin(alpha) * cos(beta),
+			cos(alpha), 
+			- sin(alpha) * sin(beta),
+		)
+
 	return Vector3(
-		sin(alpha)* cos(beta),
-		cos(alpha),             
-		-sin(alpha * sin(beta)),
+		sin(alpha) * cos(beta),
+		sin(alpha) * sin(beta),
+		cos(alpha), 
 	)

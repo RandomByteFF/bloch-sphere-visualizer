@@ -52,6 +52,10 @@ func multiply_real(s : float) -> Complex:
 func divide(b: Complex) -> Complex:
 	# denominator
 	var d = b.re * b.re + b.im * b.im
+
+	if d == 0:
+		push_error("Division by zero")
+		return Complex.new(0, 0)
 	
 	return Complex.new(
 		(re * b.re + im * b.im) / d,
