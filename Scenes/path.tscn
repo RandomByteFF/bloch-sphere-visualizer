@@ -5,14 +5,14 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_p7yog"]
 resource_local_to_scene = true
-render_priority = 0
+render_priority = 4
 shader = ExtResource("2_fptuh")
 shader_parameter/color = Color(0.625597, 0.625597, 0.625597, 1)
 shader_parameter/alpha = 0.75
 
 [node name="Path" type="Node"]
 script = ExtResource("1_u5y1q")
-line_radius = 0.005
+line_radius = 0.008
 res = 10.0
 
 [node name="CSGPolygon3D" type="CSGPolygon3D" parent="."]
