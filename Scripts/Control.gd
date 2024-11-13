@@ -51,10 +51,9 @@ func _remove_qubit():
 	if arrow:
 		arrow.queue_free()
 
-func _on_qubit_change(re1: String, im1: String, re2: String, im2: String):
-	#TODO: ExpressionHandler handler = ... 
-	var x := Complex.new(re1.to_float(), im1.to_float())
-	var y := Complex.new(re2.to_float(), im2.to_float())
+func _on_qubit_change(text1 :String,  text2: String): 
+	var x := ExpressionHandler.evaluate(text1)
+	var y := ExpressionHandler.evaluate(text2)
 	var new_value = Qubit.new(x, y)
 
 	if new_value.is_valid():

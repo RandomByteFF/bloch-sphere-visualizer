@@ -55,7 +55,7 @@ func divide(b: Complex) -> Complex:
 
 	if d == 0:
 		push_error("Division by zero")
-		return Complex.new(0, 0)
+		return Complex.new()
 	
 	return Complex.new(
 		(re * b.re + im * b.im) / d,
@@ -83,7 +83,7 @@ func power(b: Complex) -> Complex:
 	)
 
 func root(b: Complex) -> Complex:
-	return power(Complex.new(1, 0).divide(b))
+	return power(Complex.new(1).divide(b))
 
 ## Returns |z|^2 for a z Complex number (`|z|^2 = zz^* = x^2 + y^2`)
 func abs_squared() -> float:

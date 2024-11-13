@@ -8,10 +8,8 @@ signal gate_removed
 signal removed
 signal qubit_changed
 
-var _re_text1 = ["1"]
-var _im_text1 = ["0"]
-var _re_text2 = ["0"]
-var _im_text2 = ["0"]
+var text1 = ["1"]
+var text2 = ["0"]
 
 var bit_index := 0
 var color_picker_open = false
@@ -44,18 +42,12 @@ func gui():
 	ImGui.SameLine()
 
 	# Complex number 1
-	ImGui.PushItemWidth(80)
-	if ImGui.InputText("##re_text_1", _re_text1, 40):
+	ImGui.PushItemWidth(160)
+	if ImGui.InputText("##text_1", text1, 80):
 		_on_qubit_change()
-	ImGui.SameLine()
-	if ImGui.InputText("##im_text_1", _im_text1, 40):
-		_on_qubit_change()
-	ImGui.SameLine()
-	ImGui.PopItemWidth()
-	ImGui.Text("i")
 
 	#Complex number 2
-	ImGui.PushItemWidth(80)
+	ImGui.PushItemWidth(160)
 	
 	if ImGui.Button("Del"):
 		removed.emit()
@@ -65,15 +57,9 @@ func gui():
 	# ImGui is a piece of shit, but oddly, it's really useful sometimes
 	# (I still love it tho)
 	ImGui.SetCursorPosX(56)
-	if ImGui.InputText("##re_text_2", _re_text2, 40):
+	if ImGui.InputText("##text_2", text2, 80):
 		_on_qubit_change()
-	ImGui.SameLine()
-	if ImGui.InputText("##im_text_2", _im_text2, 40):
-		_on_qubit_change()
-	ImGui.SameLine()
-	ImGui.PopItemWidth()
-	ImGui.Text("i")
-
+	
 	# Color picker (if color picker is open)
 	if color_picker_open:
 		if ImGui.ColorPicker4("##Arrow color", color, ImGui.ColorEditFlags_NoSidePreview | ImGui.ColorEditFlags_NoSmallPreview):
@@ -179,4 +165,4 @@ func _construct_new_gate_order() -> Array[Gate]:
 	return res
 
 func _on_qubit_change():
-	qubit_changed.emit(_re_text1[0], _im_text1[0], _re_text2[0], _im_text2[0])
+	qubit_changed.emit(text1[0], text2[0])
