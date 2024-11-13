@@ -35,6 +35,5 @@ func _custom_popup():
 	ImGui.EndTable()
 
 func update_gate():
-	#TODO ExpressionHandler handler = ... 
-	gate.value.d = Complex.new_polar(1, input[0].to_float())
+	gate.value.d = ExpressionHandler.evaluate(input[0])
 	on_change.call()

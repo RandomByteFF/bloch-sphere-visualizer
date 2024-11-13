@@ -61,18 +61,29 @@ func divide(b: Complex) -> Complex:
 		(re * b.re + im * b.im) / d,
 		(im * b.re - re * b.im) / d,
 	)
-	
-func power(n: float) -> Complex:
+
+# functions
+func sin_of() -> Complex:
+	return Complex.new(sin(re) * cosh(im), cos(re) * sinh(im))
+
+func cos_of() -> Complex:
+	return Complex.new(cos(re) * cosh(im), -sin(re) * sinh(im))
+
+func tan_of() -> Complex:
+	return sin_of().divide(cos_of())
+
+func power(b: Complex) -> Complex:
 	var p = get_polar()
+	var q = b.get_polar()
 
 	return Complex.new_polar(
-		pow(p["r"], n),
-		p["phi"] * n,
+		pow(p["r"], q["r"]),
+		p["phi"] * q['r'],
 
 	)
 
-func root(n: int) -> Complex:
-	return power(1.0 / n)
+func root(b: Complex) -> Complex:
+	return power(Complex.new(1, 0).divide(b))
 
 ## Returns |z|^2 for a z Complex number (`|z|^2 = zz^* = x^2 + y^2`)
 func abs_squared() -> float:

@@ -1,7 +1,13 @@
 class_name Tokenizer
 
 static var brackets = ["(", ")"]
-static var operators = ["+", "-", "*", "/", "^"]
+static var operators = {
+    "+": 0, 
+    "-": 0, 
+    "*": 1, 
+    "/": 1, 
+    "^": 2,
+}
 static var functions = ["sin", "cos", "tan", "sqrt"]
 static var values = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ".", "i", "pi", "j", "e"]
 
@@ -29,11 +35,14 @@ static func tokenize(text : String) -> Array[Token]:
 
         # handling brackets
         if current_char in brackets:
-            tokens.append(Token.new(Token.TokenType.BRACKET, current_char))
+            var type = Token.TokenType.BRACKET_OPEN if current_char == "(" else Token.TokenType.BRACKET_CLOSE
+            var precedence = 10
+            tokens.append(Token.new(type, current_char, precedence))
 
         # handling operators
         elif current_char in operators:
-            tokens.append(Token.new(Token.TokenType.OPERATOR, current_char))
+            var precedence = operators.get(current_char)
+            tokens.append(Token.new(Token.TokenType.OPERATOR, current_char, precedence))
 
         # handling functions
         elif found.size() >= 2 and _find_function(current_char):
@@ -41,7 +50,9 @@ static func tokenize(text : String) -> Array[Token]:
             if found.join("").ends_with(function_found):
                 # remove the previous characters of the function
                 found = found.slice(0, found.size() - (function_found.size() - 1)) 
-                tokens.append(Token.new(Token.TokenType.FUNCTION, function_found))
+                
+                var precedence = 10
+                tokens.append(Token.new(Token.TokenType.FUNCTION, function_found, precedence))
             else:
                 found.append(current_char)
         
@@ -62,4 +73,37 @@ static func tokenize(text : String) -> Array[Token]:
     if found.size() > 0:
         tokens.append(Token.new(Token.TokenType.VALUE, found.join("")))
 
+    return tokens
+
+# Examples for each rule
+# 1. `2 pi` (this also leads to `1 000 = 1 * 0 = 0` but the alternative notation is supported: `1_000`)
+# 2. `2 cos(...)`
+# 3. `2(...)`
+# ---
+# 4. `(...) pi`
+# 5. `(...) sin()`
+# 6. `(...) (...)`
+static var _insert_rules = {
+    Token.TokenType.VALUE: [
+        Token.TokenType.VALUE, 
+        Token.TokenType.FUNCTION,
+        Token.TokenType.BRACKET_OPEN,
+    ],
+    Token.TokenType.BRACKET_CLOSE: [
+        Token.TokenType.VALUE, 
+        Token.TokenType.FUNCTION,
+        Token.TokenType.BRACKET_OPEN,
+    ]
+}
+
+static func insert_multiplication(tokens : Array[Token]) -> Array[Token]:
+    var i := 0     
+
+    while i < tokens.size() - 1:
+        var expected_next = _insert_rules.get(tokens[i].type)
+
+        if (expected_next != null) and (tokens[i+1].type in expected_next):
+            tokens.insert(i, Token.new(Token.TokenType.OPERATOR, '*'))
+
+        i += 1
     return tokens
