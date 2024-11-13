@@ -72,15 +72,17 @@ func cos_of() -> Complex:
 func tan_of() -> Complex:
 	return sin_of().divide(cos_of())
 
+# based on https://mathworld.wolfram.com/ComplexExponentiation.html
 func power(b: Complex) -> Complex:
 	var p = get_polar()
-	var q = b.get_polar()
 
-	return Complex.new_polar(
-		pow(p["r"], q["r"]),
-		p["phi"] * q['r'],
+	var squared = re*re + im*im
+	var multiplier = pow(squared, b.re / 2) * exp(-b.im * p["phi"])
+	var param = b.re * p["phi"] + 0.5 * b.im * log(squared)
+	var new_re = multiplier * cos(param)
+	var new_im = multiplier * sin(param)
 
-	)
+	return Complex.new(new_re, new_im)
 
 func root(b: Complex) -> Complex:
 	return power(Complex.new(1).divide(b))
