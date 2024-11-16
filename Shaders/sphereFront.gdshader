@@ -3,6 +3,7 @@ render_mode unshaded;
 render_mode cull_disabled;
 
 uniform float lineCountLong = 20.0f;
+uniform float longOffset = 0.4355f;
 uniform float lineCountLat = 20.0f;
 uniform float widthLong = 0.045f;
 uniform float widthLat = 0.1f;
@@ -19,7 +20,7 @@ void fragment() {
 
 	//TODO: hammer longitude
 	float longJump = sqrt(1.0f - corrigation * pow((abs(UV.y - 0.5f) * 2.0f), 2.0f)) * widthLong;
-	float longAlpha = step(longJump, mod(UV.x - 0.5f * widthLong, 1.0f / lineCountLong));
+	float longAlpha = step(longJump, mod(UV.x + longOffset - 0.5f * widthLong, 1.0f / lineCountLong));
 
 	ALPHA = (backgroundAlpha + step(0.5f, longAlpha + latAlpha)) * alphaLimit;
 	vec3 background = (backgroundColor * (alphaLimit - ALPHA));

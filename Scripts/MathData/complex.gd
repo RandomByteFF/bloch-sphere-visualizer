@@ -55,24 +55,37 @@ func divide(b: Complex) -> Complex:
 
 	if d == 0:
 		push_error("Division by zero")
-		return Complex.new(0, 0)
+		return Complex.new()
 	
 	return Complex.new(
 		(re * b.re + im * b.im) / d,
 		(im * b.re - re * b.im) / d,
 	)
-	
-func power(n: float) -> Complex:
+
+# functions
+func sin_of() -> Complex:
+	return Complex.new(sin(re) * cosh(im), cos(re) * sinh(im))
+
+func cos_of() -> Complex:
+	return Complex.new(cos(re) * cosh(im), -sin(re) * sinh(im))
+
+func tan_of() -> Complex:
+	return sin_of().divide(cos_of())
+
+# based on https://mathworld.wolfram.com/ComplexExponentiation.html
+func power(b: Complex) -> Complex:
 	var p = get_polar()
 
-	return Complex.new_polar(
-		pow(p["r"], n),
-		p["phi"] * n,
+	var squared = re*re + im*im
+	var multiplier = pow(squared, b.re / 2) * exp(-b.im * p["phi"])
+	var param = b.re * p["phi"] + 0.5 * b.im * log(squared)
+	var new_re = multiplier * cos(param)
+	var new_im = multiplier * sin(param)
 
-	)
+	return Complex.new(new_re, new_im)
 
-func root(n: int) -> Complex:
-	return power(1.0 / n)
+func root(b: Complex) -> Complex:
+	return power(Complex.new(1).divide(b))
 
 ## Returns |z|^2 for a z Complex number (`|z|^2 = zz^* = x^2 + y^2`)
 func abs_squared() -> float:

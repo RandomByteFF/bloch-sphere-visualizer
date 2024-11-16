@@ -5,9 +5,6 @@ var bit_index := 0
 
 var qubit_gui = []
 
-func _ready() -> void:
-	add_qbit()
-
 func _process(_delta):
 	ImGui.SetNextWindowPos(Vector2(-1, -1))
 	ImGui.SetNextWindowSize(Vector2(255, 500), ImGui.Cond_Once)

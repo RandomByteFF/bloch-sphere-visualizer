@@ -46,17 +46,14 @@ func _custom_popup():
 	ImGui.EndTable()
 
 func update_gate(target : int):
-	#TODO ExpressionHandler handler = ...
-	var value = Complex.new(-1, 0)
-
 	if target == 0:
-		gate.value.a = value
+		gate.value.a = ExpressionHandler.evaluate(a[0])
 	elif target == 1:
-		gate.value.b = value
+		gate.value.b = ExpressionHandler.evaluate(b[0])
 	elif target == 2:
-		gate.value.c = value
+		gate.value.c = ExpressionHandler.evaluate(c[0])
 	elif target == 3:
-		gate.value.d = value
+		gate.value.d = ExpressionHandler.evaluate(d[0])
 
 	if gate.value._is_unitary():
 		on_change.call()
