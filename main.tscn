@@ -67,16 +67,18 @@ material_override = SubResource("StandardMaterial3D_8e1fd")
 transform = Transform3D(0.01, 0, 0, 0, -2.18557e-06, -0.01, 0, 50, -4.37114e-10, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_wny53")
 
-[node name="Y2" type="CSGCylinder3D" parent="BlochSphere"]
+[node name="X" type="CSGCylinder3D" parent="BlochSphere"]
 transform = Transform3D(-4.37114e-10, -50, 0, 0.01, -2.18557e-06, 0, 0, 0, 0.01, 0, 0, 0)
 material_override = SubResource("StandardMaterial3D_2nyuh")
 
 [node name="CameraPivot" type="Node3D" parent="."]
+transform = Transform3D(0.91496, -0.124032, 0.384011, 0, 0.951594, 0.307357, -0.403545, -0.281219, 0.87067, 0, 0, 0)
 
 [node name="Camera" type="Camera3D" parent="CameraPivot" node_paths=PackedStringArray("target", "pivot")]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.4263)
 script = ExtResource("3_3uo77")
+max_zoom_distance = 0.8
 target = NodePath("../../BlochSphere")
 pivot = NodePath("..")
 
