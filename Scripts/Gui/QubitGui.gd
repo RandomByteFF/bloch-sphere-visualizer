@@ -17,7 +17,7 @@ var identifier := "a"
 var main_gui: Gui
 ## Default arrow color. The length has to be 4, else ImGui will crash the application
 ## without any error whatsoever. 
-var color = [0.0, 0.0, 0.0, 1.0]
+var color = [randf(), randf(), randf(), 1.0]
 var gates: Array[GateGui] = []
 
 var _init_mouse_pos := Vector2()
@@ -32,9 +32,10 @@ func _init(main_gui: Gui) -> void:
 func gui():
 	ImGui.BeginChild("qubit_gui_" + str(bit_index), Vector2(0, 0), ImGui.ChildFlags_AutoResizeY)
 	
-	# Identifier text
-	ImGui.AlignTextToFramePadding()
-	ImGui.Text("|" + identifier + ">")
+	#ImGui.AlignTextToFramePadding()
+	if ImGui.Button("Del"):
+		removed.emit()
+		main_gui.remove_qubit(self)
 	ImGui.SameLine()
 
 	if ImGui.ColorButton("##arrow_color_button", Color(color[0], color[1], color[2], color[3])):
@@ -49,14 +50,9 @@ func gui():
 	#Complex number 2
 	ImGui.PushItemWidth(160)
 	
-	if ImGui.Button("Del"):
-		removed.emit()
-		main_gui.remove_qubit(self)
-	ImGui.SameLine()
-
 	# ImGui is a piece of shit, but oddly, it's really useful sometimes
 	# (I still love it tho)
-	ImGui.SetCursorPosX(56)
+	ImGui.SetCursorPosX(64)
 	if ImGui.InputText("##text_2", text2, 80):
 		_on_qubit_change()
 	
