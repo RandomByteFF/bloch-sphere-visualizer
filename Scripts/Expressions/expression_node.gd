@@ -69,7 +69,7 @@ func _evaluate_string(text : String) -> Complex:
 		chars = ""
 
 	if chars.length() > 0:
-		#TODO show error if needed
+		# TODO show error if needed
 		print("Invalid string %s" % chars)
 		return Complex.new()
 				

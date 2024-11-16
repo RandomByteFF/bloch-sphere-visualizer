@@ -50,6 +50,9 @@ func _on_gate_delete(gate: Gate):
 func _remove_qubit():
 	if arrow:
 		arrow.queue_free()
+	if path:
+		interpolation.clear_points()
+		path.queue_free()
 
 func _on_qubit_change(text1 :String,  text2: String): 
 	var x := ExpressionHandler.evaluate(text1)
@@ -61,7 +64,7 @@ func _on_qubit_change(text1 :String,  text2: String):
 		_update_arrow()
 	else:
 		invalid_qubit.emit("|a|^2 + |b|^2 must be 1")
-		#TODO: Hajrá Benedek - create warning (but the input field would call this on every change so be careful)
+		# TODO: create warning if needed othervise remove this signal
 
 ## Updates the arrow position
 var points = []
