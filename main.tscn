@@ -1,26 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://d13r8kj4baab6"]
+[gd_scene load_steps=10 format=3 uid="uid://d13r8kj4baab6"]
 
-[ext_resource type="Shader" path="res://Shaders/sphereFront.gdshader" id="1_6jdj6"]
+[ext_resource type="Material" uid="uid://ceu6sekwugu61" path="res://Shaders/BlochSphere.tres" id="1_50i6l"]
 [ext_resource type="Script" path="res://Scripts/camera.gd" id="3_3uo77"]
 [ext_resource type="LabelSettings" uid="uid://jlxvm62n6cxn" path="res://Styles/KatLabel.tres" id="3_cmfpm"]
 [ext_resource type="Script" path="res://Scripts/ToWorldSpace.gd" id="3_og2xj"]
 [ext_resource type="Script" path="res://Scripts/Gui/Gui.gd" id="4_afmv3"]
 [ext_resource type="Script" path="res://Scripts/ControlStore.gd" id="5_k4i0p"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6e1v1"]
-resource_local_to_scene = true
-render_priority = 0
-shader = ExtResource("1_6jdj6")
-shader_parameter/lineCountLong = 8.0
-shader_parameter/longOffset = 0.4355
-shader_parameter/lineCountLat = 8.0
-shader_parameter/widthLong = 0.123
-shader_parameter/widthLat = 0.035
-shader_parameter/corrigation = 0.065
-shader_parameter/alphaLimit = 0.7
-shader_parameter/backgroundAlpha = 0.1
-shader_parameter/lineColor = Color(0.572549, 1, 1, 1)
-shader_parameter/backgroundColor = Color(1, 1, 1, 1)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8e1fd"]
 transparency = 1
@@ -45,7 +30,7 @@ unique_name_in_owner = true
 [node name="Front" type="CSGSphere3D" parent="BlochSphere"]
 radial_segments = 60
 rings = 60
-material = SubResource("ShaderMaterial_6e1v1")
+material = ExtResource("1_50i6l")
 
 [node name="Ket0" type="Marker3D" parent="BlochSphere"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.55, 0)
@@ -118,8 +103,11 @@ label_settings = ExtResource("3_cmfpm")
 script = ExtResource("3_og2xj")
 follow = NodePath("../BlochSphere/Ket-")
 
-[node name="Gui" type="Node" parent="."]
+[node name="Gui" type="Node" parent="." node_paths=PackedStringArray("_axis", "_labels", "_sphere")]
 script = ExtResource("4_afmv3")
+_axis = [NodePath("../BlochSphere/Z"), NodePath("../BlochSphere/Y"), NodePath("../BlochSphere/X")]
+_labels = [NodePath("../Ket0"), NodePath("../Ket1"), NodePath("../Ket+"), NodePath("../Ket-")]
+_sphere = NodePath("../BlochSphere/Front")
 
 [node name="ControlStore" type="Node" parent="."]
 unique_name_in_owner = true

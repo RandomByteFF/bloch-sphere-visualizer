@@ -1,9 +1,19 @@
 class_name Gui extends Node
 
+@export var _axis: Array[Node3D]
+@export var _labels: Array[Label]
+@export var _sphere: CSGSphere3D
+
 var bit_index := 0
 @onready var _title := "QBit editor"
+var _shader1 = preload("res://Shaders/BlochSphere.tres")
+var _shader2 = preload("res://Shaders/BlochSphereEmpty.tres")
 
 var qubit_gui = []
+
+var _show_axis := [true]
+var _show_ket_labels := [true]
+var _show_grid_lines := [true]
 
 func _process(_delta):
 	ImGui.SetNextWindowPos(Vector2(-1, -1))
@@ -18,6 +28,15 @@ func _process(_delta):
 	if ImGui.ButtonEx("+", Vector2(ImGui.GetWindowSize().x - 16, 50)):
 		add_qbit()
 	
+	if ImGui.TreeNode("Settings"):
+		if ImGui.Checkbox(" Show axis", _show_axis):
+			_axis.any(func(it): it.visible = _show_axis[0])
+		if ImGui.Checkbox(" Show ket labels", _show_ket_labels):
+			_labels.any(func(it): it.visible = _show_ket_labels[0])
+		if ImGui.Checkbox(" Show grid lines", _show_grid_lines):
+			_sphere.material = _shader1 if _show_grid_lines[0] else _shader2
+		ImGui.TreePop()
+
 	ImGui.End()
 
 func add_qbit():

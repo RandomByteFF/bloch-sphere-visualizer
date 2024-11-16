@@ -1,0 +1,18 @@
+[gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://ceu6sekwugu61"]
+
+[ext_resource type="Shader" path="res://Shaders/sphereFront.gdshader" id="1_km7o8"]
+
+[resource]
+resource_local_to_scene = true
+render_priority = 0
+shader = ExtResource("1_km7o8")
+shader_parameter/lineCountLong = 8.0
+shader_parameter/longOffset = 0.4355
+shader_parameter/lineCountLat = 8.0
+shader_parameter/widthLong = 0.123
+shader_parameter/widthLat = 0.035
+shader_parameter/corrigation = 0.065
+shader_parameter/alphaLimit = 0.7
+shader_parameter/backgroundAlpha = 0.1
+shader_parameter/lineColor = Color(0.572549, 1, 1, 1)
+shader_parameter/backgroundColor = Color(1, 1, 1, 1)
